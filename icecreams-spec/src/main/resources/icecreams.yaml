@@ -1,0 +1,89 @@
+openapi: '3.0.3'
+info:
+  description: Api Documentation
+  version: '1.0'
+  title: Api Documentation
+servers:
+  - url: 'http://localhost:9090/api'
+tags:
+  - name: Ice-creams-end-point
+    description: Gestion des glaces
+paths:
+  /ice-creams:
+    get:
+      tags:
+        - Ice-creams-end-point
+      summary: Obtient une liste de toutes les glaces
+      operationId: getIceCreams
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/IceCream'
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - Ice-creams-end-point
+      summary: Ajoute une nouvelle glace
+      operationId: addIceCream
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/IceCream'
+      responses:
+        '201':
+          description: Glace créée
+          headers:
+            Location:
+              description: URL de la glace créée
+              schema:
+                type: string
+                format: uri
+  /ice-creams/{id}:
+    get:
+      tags:
+        - Ice-creams-end-point
+      summary: Obtient une glace
+      operationId: getIceCream
+      parameters:
+        - name: id
+          in: path
+          description: numéro de la glace à obtenir
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/IceCream'
+        '404':
+          description: Not Found
+      deprecated: false
+components:
+  schemas:
+    IceCream:
+      description: toutes les caractéristiques d'une glace
+      type: object
+      properties:
+        name:
+          description: nom de la glace
+          type: string
+        price:
+          description: prix de la glace
+          type: number
+          format: float
+        id:
+          description: numéro auto-incrémenté de la glace
+          type: integer
+          format: int32
+      title: IceCream
