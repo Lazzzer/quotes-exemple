@@ -61,7 +61,6 @@ public class IceCreamsEndPoint implements IceCreamsApi {
             iceCream.setPrice(iceCreamEntity.getPrice());
             return new ResponseEntity<IceCream>(iceCream, HttpStatus.OK);
         } else {
-//            return ResponseEntity.notFound().build();
             throw new IceCreamNotFoundException(id);
         }
     }
@@ -75,7 +74,6 @@ public class IceCreamsEndPoint implements IceCreamsApi {
         IceCreamEntity iceCreamEntity = opt.get();
         iceCreamEntity.setName(iceCream.getName());
         iceCreamEntity.setPrice(iceCream.getPrice());
-        //iceCreamEntity.setOrigin(iceCream.getOrigin());
         iceCreamRepository.save(iceCreamEntity);
         return ResponseEntity.noContent().build();
     }
