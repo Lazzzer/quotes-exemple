@@ -6,13 +6,17 @@ info:
 servers:
   - url: 'http://localhost:9090/api'
 tags:
-  - name: Ice-creams-end-point
+  - name: ice-creams
     description: Gestion des glaces
+  - name: origins
+    description: Gestion des origines des différents types de glace
+  - name: containers
+    description: Gestion des containers pour la glace
 paths:
   /ice-creams:
     get:
       tags:
-        - Ice-creams-end-point
+        - ice-creams
       summary: Obtient une liste de toutes les glaces
       operationId: getIceCreams
       responses:
@@ -28,7 +32,7 @@ paths:
           description: Not Found
     post:
       tags:
-        - Ice-creams-end-point
+        - ice-creams
       summary: Ajoute une nouvelle glace
       operationId: addIceCream
       requestBody:
@@ -48,7 +52,7 @@ paths:
   /ice-creams/{id}:
     get:
       tags:
-        - Ice-creams-end-point
+        - ice-creams
       summary: Obtient une glace
       operationId: getIceCream
       parameters:
@@ -69,6 +73,161 @@ paths:
         '404':
           description: Not Found
       deprecated: false
+    put:
+      tags:
+        - ice-creams
+      summary: Modifier une glace existante
+      operationId: modifyIceCream
+      parameters:
+        - name: id
+          in: path
+          description: numéro de la glace à modifier
+          required: true
+          schema:
+            type: integer
+            format: int32
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/IceCream'
+      responses:
+        '201':
+          description: Glace modifiée
+          headers:
+            Location:
+              description: URL de la glace modifiée
+              schema:
+                type: string
+                format: uri
+        '404':
+          description: Not Found
+      deprecated: false
+    delete:
+      tags:
+        - ice-creams
+      summary: Supprimer une glace existante
+      operationId: deleteIceCream
+      parameters:
+        - name: id
+          in: path
+          description: numéro de la glace à supprimer
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '201':
+          description: Glace supprimée
+        '404':
+          description: Not Found
+      deprecated: false
+  /ice-creams/origins/{id}:
+    get:
+      tags:
+        - ice-creams
+      summary: Obtient toutes les glaces d'une origine particulière (many to one)
+      operationId: getIceCreamsFromOrigin
+      parameters:
+        - name: id
+          in: path
+          description: id de l'origine de la glace
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/IceCream'
+        '404':
+          description: Not Found
+      deprecated: false
+  /ice-creams/containers/{id}:
+    get:
+      tags:
+        - ice-creams
+      summary: Obtient toutes les glaces étant dans un container particulier
+      operationId: getIceCreamsFromContainers
+      parameters:
+        - name: id
+          in: path
+          description: id du container de la glace
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/IceCream'
+        '404':
+          description: Not Found
+      deprecated: false
+  /origins:
+    get:
+      tags:
+        - origins
+      summary: Obtient une liste de toutes les origines possibles
+      operationId: getOrigins
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Origin'
+        '404':
+          description: Not Found
+  /origins/{id}/icecreams:
+    get:
+      tags:
+        - origins
+      summary: Obtient toutes les glaces liées à une origine particulière (one to many)
+      operationId: manyIceCreamFromOneOrigin
+      parameters:
+        - name: id
+          in: path
+          description: id de l'origine
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/IceCream'
+        '404':
+          description: Not Found
+      deprecated: false
+  /containers:
+    get:
+      tags:
+        - containers
+      summary: Obtient une liste de toutes les containers pour les glaces
+      operationId: getContainers
+      responses:
+        '200':
+          description: OK
+          content:
+            'application/json':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Container'
+        '404':
+          description: Not Found
 components:
   schemas:
     IceCream:
@@ -87,3 +246,27 @@ components:
           type: integer
           format: int32
       title: IceCream
+    Origin:
+      description: toutes les caractéristiques d'une origine
+      type: object
+      properties:
+        name:
+          description: nom du pays d'origine
+          type: string
+        id:
+          description: numéro auto-incrémenté de l'origine
+          type: integer
+          format: int32
+      title: Origin
+    Container:
+      description: toutes les caractéristiques d'un container
+      type: object
+      properties:
+        name:
+          description: nom du récipient dans lequelle la glace se trouve
+          type: string
+        id:
+          description: numéro auto-incrémenté du container
+          type: integer
+          format: int32
+      title: Container

@@ -3,7 +3,7 @@ package ch.heig.icecreams.api.entities;
 
 import jakarta.persistence.*;
 
-@Entity(name = "Containers")
+@Entity(name = "Container")
 @Table(name = "containers")
 public class ContainerEntity {
     @TableGenerator(name = "genContainers",

@@ -2,7 +2,7 @@ package ch.heig.icecreams.api.entities;
 
 import jakarta.persistence.*;
 
-@Entity(name = "Origins")
+@Entity(name = "Origin")
 @Table(name = "origins")
 public class OriginEntity {
     @TableGenerator(name = "genOrigins",
