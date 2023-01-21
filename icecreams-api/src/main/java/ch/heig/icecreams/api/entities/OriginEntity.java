@@ -1,25 +1,24 @@
 package ch.heig.icecreams.api.entities;
 
-
 import jakarta.persistence.*;
 
-@Entity(name = "Containers")
-@Table(name = "containers")
-public class ContainerEntity {
-    @TableGenerator(name = "genContainers",
-            table = "idContainers",
+@Entity(name = "Origins")
+@Table(name = "origins")
+public class OriginEntity {
+    @TableGenerator(name = "genOrigins",
+            table = "idOrigins",
             pkColumnName = "name",
             valueColumnName = "val",
             initialValue = 3,
             allocationSize = 100)
     @Id // @GeneratedValue
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "genContainers")
+    @GeneratedValue(strategy = GenerationType.TABLE, generator = "genOrigins")
     private int id;
     private String name;
 
-    public ContainerEntity() {}
+    public OriginEntity() {}
 
-    public ContainerEntity(int id, String name) {
+    public OriginEntity(int id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -40,4 +39,5 @@ public class ContainerEntity {
         this.name = name;
     }
 }
+
 

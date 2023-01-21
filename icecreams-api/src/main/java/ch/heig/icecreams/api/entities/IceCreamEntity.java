@@ -17,13 +17,15 @@ public class IceCreamEntity {
     private int id;
     private String name;
     private float price;
+    private int originId;
 
     public IceCreamEntity() {}
 
-    public IceCreamEntity(int id, String name, float price) {
+    public IceCreamEntity(int id, String name, float price, int originId) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.originId = originId;
     }
 
     public int getId() {
@@ -44,6 +46,14 @@ public class IceCreamEntity {
 
     public float getPrice() {
         return price;
+    }
+
+    public void setOriginId(int originId) {
+        this.originId = originId;
+    }
+
+    public int getOriginId() {
+        return originId;
     }
 
     public void setPrice(float price) {
