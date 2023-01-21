@@ -92,17 +92,21 @@ public class IceCreamsEndPoint implements IceCreamsApi {
 
     @Override
     public ResponseEntity<List<IceCream>> getIceCreamsFromOrigin(Integer id){
-        Optional<OriginEntity> opt = originRepository.findById(id);
+        return iceCreamFromOrigin(id, iceCreamRepository, originRepository);
+    }
+
+    public static ResponseEntity<List<IceCream>> iceCreamFromOrigin(Integer id, IceCreamRepository icr, OriginRepository or){
+        Optional<OriginEntity> opt = or.findById(id);
         if (opt.isEmpty()){
             throw new IceCreamNotFoundException(id);
         }
 
-        List<IceCreamEntity> iceCreamEntities = iceCreamRepository.findByOriginId(id);
+        List<IceCreamEntity> iceCreamEntities = icr.findByOriginId(id);
         List<IceCream> iceCreams = createIceCreamList(iceCreamEntities);
         return new ResponseEntity<List<IceCream>>(iceCreams,HttpStatus.OK);
     }
 
-    public List<IceCream> createIceCreamList(List<IceCreamEntity> iceCreamEntities){
+    public static List<IceCream> createIceCreamList(List<IceCreamEntity> iceCreamEntities){
         List<IceCream> iceCreams = new ArrayList<>();
         for (IceCreamEntity iceCreamEntity : iceCreamEntities) {
             IceCream iceCream = new IceCream();

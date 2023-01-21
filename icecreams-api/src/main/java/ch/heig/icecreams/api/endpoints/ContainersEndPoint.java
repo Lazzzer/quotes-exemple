@@ -1,11 +1,15 @@
 package ch.heig.icecreams.api.endpoints;
 
+import ch.heig.icecreams.api.entities.ContainerEntity;
 import ch.heig.icecreams.api.entities.OriginEntity;
+import ch.heig.icecreams.api.repositories.ContainerRepositoy;
 import ch.heig.icecreams.api.repositories.IceCreamRepository;
 import ch.heig.icecreams.api.repositories.OriginRepository;
+import org.openapitools.api.ContainersApi;
 import org.openapitools.api.IceCreamsApi;
 import ch.heig.icecreams.api.exceptions.IceCreamNotFoundException;
 import org.openapitools.api.OriginsApi;
+import org.openapitools.model.Container;
 import org.openapitools.model.IceCream;
 import ch.heig.icecreams.api.entities.IceCreamEntity;
 import org.openapitools.model.Origin;
@@ -24,30 +28,23 @@ import java.util.Optional;
 import static ch.heig.icecreams.api.endpoints.IceCreamsEndPoint.iceCreamFromOrigin;
 
 @RestController
-public class OriginsEndPoint implements OriginsApi {
+public class ContainersEndPoint implements ContainersApi {
 
     @Autowired
-    private OriginRepository originRepository;
-
-    @Autowired
-    private IceCreamRepository iceCreamRepository;
+    private ContainerRepositoy containerRepositoy;
 
     @Override
-    public ResponseEntity<List<Origin>> getOrigins() {
-        List<OriginEntity> origins = originRepository.findAll();
-        List<Origin> quotes = new ArrayList<>();
-        for (OriginEntity origin : origins) {
-            Origin current = new Origin();
-            current.setId(origin.getId());
-            current.setName(origin.getName());
+    public ResponseEntity<List<Container>> getContainers() {
+        List<ContainerEntity> containers = containerRepositoy.findAll();
+        List<Container> quotes = new ArrayList<>();
+        for (ContainerEntity container : containers) {
+            Container current = new Container();
+            current.setId(container.getId());
+            current.setName(container.getName());
             quotes.add(current);
         }
-        return new ResponseEntity<List<Origin>>(quotes,HttpStatus.OK);
-    }
-
-    @Override
-    public ResponseEntity<List<IceCream>> manyIceCreamsFromOneOrigin(Integer id) {
-        return iceCreamFromOrigin(id, iceCreamRepository, originRepository);
+        return new ResponseEntity<List<Container>>(quotes,HttpStatus.OK);
     }
 
 }
+
