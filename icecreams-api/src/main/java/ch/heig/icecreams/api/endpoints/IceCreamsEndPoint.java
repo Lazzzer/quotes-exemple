@@ -67,4 +67,17 @@ public class IceCreamsEndPoint implements IceCreamsApi {
         }
     }
 
+    @Override
+    public ResponseEntity<Void> modifyIceCream(Integer id, @RequestBody IceCream iceCream){
+        Optional<IceCreamEntity> opt = iceCreamRepository.findById(id);
+        if (opt.isEmpty()){
+            throw new IceCreamNotFoundException(id);
+        }
+        IceCreamEntity iceCreamEntity = opt.get();
+        iceCreamEntity.setName(iceCream.getName());
+        iceCreamEntity.setPrice(iceCream.getPrice());
+        iceCreamRepository.save(iceCreamEntity);
+        return ResponseEntity.noContent().build();
+    }
+
 }

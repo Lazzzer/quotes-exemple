@@ -187,12 +187,12 @@ paths:
                   $ref: '#/components/schemas/Origin'
         '404':
           description: Not Found
-  /origins/{id}/icecreams:
+  /origins/{id}/ice-creams:
     get:
       tags:
         - origins
       summary: Obtient toutes les glaces liées à une origine particulière (one to many)
-      operationId: manyIceCreamFromOneOrigin
+      operationId: manyIceCreamsFromOneOrigin
       parameters:
         - name: id
           in: path
