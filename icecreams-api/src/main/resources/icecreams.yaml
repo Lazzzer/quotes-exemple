@@ -237,6 +237,10 @@ components:
         name:
           description: nom de la glace
           type: string
+        originId:
+          description: id de l'origine de la glace
+          type: integer
+          format: int32
         price:
           description: prix de la glace
           type: number

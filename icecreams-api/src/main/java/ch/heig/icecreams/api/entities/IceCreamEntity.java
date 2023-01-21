@@ -19,7 +19,8 @@ public class IceCreamEntity {
     private float price;
     private int originId;
 
-    public IceCreamEntity() {}
+    public IceCreamEntity() {
+    }
 
     public IceCreamEntity(int id, String name, float price, int originId) {
         this.id = id;

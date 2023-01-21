@@ -1,5 +1,6 @@
 package ch.heig.icecreams.api.endpoints;
 
+import ch.heig.icecreams.api.repositories.OriginRepository;
 import org.openapitools.api.IceCreamsApi;
 import ch.heig.icecreams.api.exceptions.IceCreamNotFoundException;
 import org.openapitools.model.IceCream;
@@ -23,17 +24,13 @@ public class IceCreamsEndPoint implements IceCreamsApi {
     @Autowired
     private IceCreamRepository iceCreamRepository;
 
+    @Autowired
+    private OriginRepository originRepository;
+
     @Override
     public ResponseEntity<List<IceCream>> getIceCreams() {
         List<IceCreamEntity> quoteEntities= iceCreamRepository.findAll();
-        List<IceCream> quotes  = new ArrayList<>();
-        for (IceCreamEntity iceCreamEntity : quoteEntities) {
-            IceCream quote = new IceCream();
-            quote.setId(iceCreamEntity.getId());
-            quote.setName(iceCreamEntity.getName());
-            quote.setPrice(iceCreamEntity.getPrice());
-            quotes.add(quote);
-        }
+        List<IceCream> quotes = createIceCreamList(quoteEntities);
         return new ResponseEntity<List<IceCream>>(quotes,HttpStatus.OK);
     }
 
@@ -42,6 +39,7 @@ public class IceCreamsEndPoint implements IceCreamsApi {
         IceCreamEntity iceCreamEntity = new IceCreamEntity();
         iceCreamEntity.setName(iceCream.getName());
         iceCreamEntity.setPrice(iceCream.getPrice());
+        iceCreamEntity.setOriginId(iceCream.getOriginId());
         IceCreamEntity iceCreamAdded = iceCreamRepository.save(iceCreamEntity);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
@@ -76,6 +74,7 @@ public class IceCreamsEndPoint implements IceCreamsApi {
         IceCreamEntity iceCreamEntity = opt.get();
         iceCreamEntity.setName(iceCream.getName());
         iceCreamEntity.setPrice(iceCream.getPrice());
+        //iceCreamEntity.setOrigin(iceCream.getOrigin());
         iceCreamRepository.save(iceCreamEntity);
         return ResponseEntity.noContent().build();
     }
@@ -88,5 +87,30 @@ public class IceCreamsEndPoint implements IceCreamsApi {
         }
         iceCreamRepository.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    /*@Override
+    public ResponseEntity<List<IceCream>> getIceCreamsFromOrigin(Integer id){
+        Optional<OriginEntity> opt = originRepository.findById(id);
+        if (opt.isEmpty()){
+            throw new IceCreamNotFoundException(id);
+        }
+
+        List<IceCreamEntity> iceCreamEntities = iceCreamRepository.findByOrigin(id);
+        List<IceCream> iceCreams = createIceCreamList(iceCreamEntities);
+        return new ResponseEntity<List<IceCream>>(iceCreams,HttpStatus.OK);
+    }*/
+
+    public List<IceCream> createIceCreamList(List<IceCreamEntity> iceCreamEntities){
+        List<IceCream> iceCreams = new ArrayList<>();
+        for (IceCreamEntity iceCreamEntity : iceCreamEntities) {
+            IceCream iceCream = new IceCream();
+            iceCream.setId(iceCreamEntity.getId());
+            iceCream.setName(iceCreamEntity.getName());
+            iceCream.setPrice(iceCreamEntity.getPrice());
+            iceCream.setOriginId(iceCreamEntity.getOriginId());
+            iceCreams.add(iceCream);
+        }
+        return iceCreams;
     }
 }
