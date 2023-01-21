@@ -80,4 +80,13 @@ public class IceCreamsEndPoint implements IceCreamsApi {
         return ResponseEntity.noContent().build();
     }
 
+    @Override
+    public ResponseEntity<Void> deleteIceCream(Integer id) {
+        Optional<IceCreamEntity> opt = iceCreamRepository.findById(id);
+        if (opt.isEmpty()){
+            throw new IceCreamNotFoundException(id);
+        }
+        iceCreamRepository.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
