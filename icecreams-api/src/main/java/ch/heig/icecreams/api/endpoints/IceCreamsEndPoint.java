@@ -1,5 +1,6 @@
 package ch.heig.icecreams.api.endpoints;
 
+import ch.heig.icecreams.api.entities.OriginEntity;
 import ch.heig.icecreams.api.repositories.OriginRepository;
 import org.openapitools.api.IceCreamsApi;
 import ch.heig.icecreams.api.exceptions.IceCreamNotFoundException;
@@ -89,17 +90,17 @@ public class IceCreamsEndPoint implements IceCreamsApi {
         return ResponseEntity.noContent().build();
     }
 
-    /*@Override
+    @Override
     public ResponseEntity<List<IceCream>> getIceCreamsFromOrigin(Integer id){
         Optional<OriginEntity> opt = originRepository.findById(id);
         if (opt.isEmpty()){
             throw new IceCreamNotFoundException(id);
         }
 
-        List<IceCreamEntity> iceCreamEntities = iceCreamRepository.findByOrigin(id);
+        List<IceCreamEntity> iceCreamEntities = iceCreamRepository.findByOriginId(id);
         List<IceCream> iceCreams = createIceCreamList(iceCreamEntities);
         return new ResponseEntity<List<IceCream>>(iceCreams,HttpStatus.OK);
-    }*/
+    }
 
     public List<IceCream> createIceCreamList(List<IceCreamEntity> iceCreamEntities){
         List<IceCream> iceCreams = new ArrayList<>();

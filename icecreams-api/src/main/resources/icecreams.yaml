@@ -142,7 +142,9 @@ paths:
           content:
             'application/json':
               schema:
-                $ref: '#/components/schemas/IceCream'
+                type: array
+                items:
+                  $ref: '#/components/schemas/IceCream'
         '404':
           description: Not Found
       deprecated: false
