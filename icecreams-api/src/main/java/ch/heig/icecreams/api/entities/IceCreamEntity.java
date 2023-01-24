@@ -50,11 +50,11 @@ public class IceCreamEntity {
         return price;
     }
 
-    public void setOriginId(OriginEntity origin) {
+    public void setOrigin(OriginEntity origin) {
         this.origin = origin;
     }
 
-    public OriginEntity getOriginId() {
+    public OriginEntity getOrigin() {
         return origin;
     }
 

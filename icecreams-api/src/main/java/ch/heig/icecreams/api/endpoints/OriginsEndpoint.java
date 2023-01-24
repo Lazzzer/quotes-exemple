@@ -1,11 +1,9 @@
 package ch.heig.icecreams.api.endpoints;
 
 import ch.heig.icecreams.api.entities.OriginEntity;
-import ch.heig.icecreams.api.repositories.IceCreamRepository;
 import ch.heig.icecreams.api.repositories.OriginRepository;
 import org.openapitools.api.OriginsApi;
-import org.openapitools.model.IceCream;
-import org.openapitools.model.Origin;
+import org.openapitools.model.OriginDTOobj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,33 +12,23 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ch.heig.icecreams.api.endpoints.IceCreamsEndPoint.iceCreamFromOrigin;
 
 @RestController
-public class OriginsEndPoint implements OriginsApi {
+public class OriginsEndpoint implements OriginsApi {
 
     @Autowired
     private OriginRepository originRepository;
 
-    @Autowired
-    private IceCreamRepository iceCreamRepository;
-
     @Override
-    public ResponseEntity<List<Origin>> getOrigins() {
+    public ResponseEntity<List<OriginDTOobj>> getOrigins() {
         List<OriginEntity> origins = originRepository.findAll();
-        List<Origin> quotes = new ArrayList<>();
+        List<OriginDTOobj> originDtos = new ArrayList<>();
         for (OriginEntity origin : origins) {
-            Origin current = new Origin();
+            OriginDTOobj current = new OriginDTOobj();
             current.setId(origin.getId());
             current.setName(origin.getName());
-            quotes.add(current);
+            originDtos.add(current);
         }
-        return new ResponseEntity<>(quotes,HttpStatus.OK);
+        return new ResponseEntity<>(originDtos,HttpStatus.OK);
     }
-
-    @Override
-    public ResponseEntity<List<IceCream>> manyIceCreamsFromOneOrigin(Integer id) {
-        return iceCreamFromOrigin(id, iceCreamRepository, originRepository);
-    }
-
 }
