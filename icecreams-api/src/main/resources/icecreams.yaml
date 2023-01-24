@@ -49,6 +49,36 @@ paths:
               schema:
                 type: string
                 format: uri
+        '409':
+          description: Conflict
+    put:
+      tags:
+        - ice-creams
+      summary: Modifier une glace existante
+      operationId: updateCreateIceCream
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/IceCream'
+      responses:
+        '200':
+          description: Glace modifiée
+          headers:
+            Location:
+              description: URL de la glace modifiée
+              schema:
+                type: string
+                format: uri
+        '201':
+          description: Glace créée
+          headers:
+            Location:
+              description: URL de la glace créée
+              schema:
+                type: string
+                format: uri
+      deprecated: false
   /ice-creams/{id}:
     get:
       tags:
@@ -72,35 +102,6 @@ paths:
         '404':
           description: Not Found
       deprecated: false
-    put:
-      tags:
-        - ice-creams
-      summary: Modifier une glace existante
-      operationId: modifyIceCream
-      parameters:
-        - name: id
-          in: path
-          description: numéro de la glace à modifier
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        content:
-          'application/json':
-            schema:
-              $ref: '#/components/schemas/IceCream'
-      responses:
-        '201':
-          description: Glace modifiée
-          headers:
-            Location:
-              description: URL de la glace modifiée
-              schema:
-                type: string
-                format: uri
-        '404':
-          description: Not Found
-      deprecated: false
     delete:
       tags:
         - ice-creams
@@ -114,7 +115,7 @@ paths:
           schema:
             type: integer
       responses:
-        '201':
+        '204':
           description: Glace supprimée
         '404':
           description: Not Found
