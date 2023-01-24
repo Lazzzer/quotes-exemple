@@ -239,7 +239,7 @@ components:
         name:
           description: nom du récipient dans lequelle la glace se trouve
           type: string
-      title: Container
+      title: ContainerDTO
     ContainerDTOid:
       allOf:
         - $ref: '#/components/schemas/ContainerDTO'
