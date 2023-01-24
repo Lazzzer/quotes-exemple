@@ -26,9 +26,9 @@ public class IceCreamsEndpoint implements IceCreamsApi {
 
     @Override
     public ResponseEntity<List<IceCreamDTOobj>> getIceCreams() {
-        List<IceCreamEntity> quoteEntities= iceCreamRepository.findAll();
-        List<IceCreamDTOobj> icecreams = createIceCreamList(quoteEntities);
-        return new ResponseEntity<>(icecreams,HttpStatus.OK);
+        List<IceCreamEntity> iceCreamsEntities= iceCreamRepository.findAll();
+        List<IceCreamDTOobj> iceCreams = createIceCreamList(iceCreamsEntities);
+        return new ResponseEntity<>(iceCreams,HttpStatus.OK);
     }
 
     @Override
@@ -67,6 +67,8 @@ public class IceCreamsEndpoint implements IceCreamsApi {
             iceCream.setId(iceCreamEntity.getId());
             iceCream.setName(iceCreamEntity.getName());
             iceCream.setPrice(iceCreamEntity.getPrice());
+            // TODO: Utiliser un mapper pour passer d'Entity à DTO
+//            iceCream.setOrigin(iceCreamEntity.getOrigin());
             iceCreams.add(iceCream);
         }
         return iceCreams;

@@ -3,9 +3,6 @@ package ch.heig.icecreams.api.entities;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity(name = "IceCream")
 @Table(name = "ice_creams")
 public class IceCreamEntity {
