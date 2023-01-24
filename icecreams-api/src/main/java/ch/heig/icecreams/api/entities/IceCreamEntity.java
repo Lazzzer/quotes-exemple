@@ -3,30 +3,31 @@ package ch.heig.icecreams.api.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(name = "IceCream")
 @Table(name = "ice_creams")
 public class IceCreamEntity {
-    @TableGenerator(name = "genIceCreams",
-            table = "idIceCreams",
-            pkColumnName = "name",
-            valueColumnName = "val",
-            initialValue = 3,
-            allocationSize = 100)
-    @Id // @GeneratedValue
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "genIceCreams")
+    @Id
+    @GeneratedValue
     private int id;
     private String name;
     private float price;
-    private int originId;
+    @ManyToOne
+    private OriginEntity origin;
+
+    /*@ManyToMany(mappedBy = "icecreams")
+    private List<ContainerEntity> containers = new ArrayList<>();*/
 
     public IceCreamEntity() {
     }
 
-    public IceCreamEntity(int id, String name, float price, int originId) {
+    public IceCreamEntity(int id, String name, float price, OriginEntity origin) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.originId = originId;
+        this.origin = origin;
     }
 
     public int getId() {
@@ -49,12 +50,12 @@ public class IceCreamEntity {
         return price;
     }
 
-    public void setOriginId(int originId) {
-        this.originId = originId;
+    public void setOriginId(OriginEntity origin) {
+        this.origin = origin;
     }
 
-    public int getOriginId() {
-        return originId;
+    public OriginEntity getOriginId() {
+        return origin;
     }
 
     public void setPrice(float price) {

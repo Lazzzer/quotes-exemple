@@ -3,19 +3,19 @@ package ch.heig.icecreams.api.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity(name = "Container")
 @Table(name = "containers")
 public class ContainerEntity {
-    @TableGenerator(name = "genContainers",
-            table = "idContainers",
-            pkColumnName = "name",
-            valueColumnName = "val",
-            initialValue = 3,
-            allocationSize = 100)
-    @Id // @GeneratedValue
-    @GeneratedValue(strategy = GenerationType.TABLE, generator = "genContainers")
+    @Id
+    @GeneratedValue
     private int id;
     private String name;
+
+    /*@ManyToMany(mappedBy = "containers")
+    private List<IceCreamEntity> icecreams = new ArrayList<>();*/
 
     public ContainerEntity() {}
 

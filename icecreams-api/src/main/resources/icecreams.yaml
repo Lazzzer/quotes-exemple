@@ -62,7 +62,6 @@ paths:
           required: true
           schema:
             type: integer
-            format: int32
       responses:
         '200':
           description: OK
@@ -85,7 +84,6 @@ paths:
           required: true
           schema:
             type: integer
-            format: int32
       requestBody:
         content:
           'application/json':
@@ -115,60 +113,9 @@ paths:
           required: true
           schema:
             type: integer
-            format: int32
       responses:
         '201':
           description: Glace supprimée
-        '404':
-          description: Not Found
-      deprecated: false
-  /ice-creams/origins/{id}:
-    get:
-      tags:
-        - ice-creams
-      summary: Obtient toutes les glaces d'une origine particulière (many to one)
-      operationId: getIceCreamsFromOrigin
-      parameters:
-        - name: id
-          in: path
-          description: id de l'origine de la glace
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: OK
-          content:
-            'application/json':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/IceCream'
-        '404':
-          description: Not Found
-      deprecated: false
-  /ice-creams/containers/{id}:
-    get:
-      tags:
-        - ice-creams
-      summary: Obtient toutes les glaces étant dans un container particulier
-      operationId: getIceCreamsFromContainers
-      parameters:
-        - name: id
-          in: path
-          description: id du container de la glace
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: OK
-          content:
-            'application/json':
-              schema:
-                $ref: '#/components/schemas/IceCream'
         '404':
           description: Not Found
       deprecated: false
@@ -189,32 +136,6 @@ paths:
                   $ref: '#/components/schemas/Origin'
         '404':
           description: Not Found
-  /origins/{id}/ice-creams:
-    get:
-      tags:
-        - origins
-      summary: Obtient toutes les glaces liées à une origine particulière (one to many)
-      operationId: manyIceCreamsFromOneOrigin
-      parameters:
-        - name: id
-          in: path
-          description: id de l'origine
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: OK
-          content:
-            'application/json':
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/IceCream'
-        '404':
-          description: Not Found
-      deprecated: false
   /containers:
     get:
       tags:
@@ -238,43 +159,68 @@ components:
       description: toutes les caractéristiques d'une glace
       type: object
       properties:
+        id:
+          description: numéro auto-incrémenté de la glace
+          type: integer
         name:
           description: nom de la glace
           type: string
-        originId:
-          description: id de l'origine de la glace
-          type: integer
-          format: int32
         price:
           description: prix de la glace
           type: number
           format: float
-        id:
-          description: numéro auto-incrémenté de la glace
-          type: integer
-          format: int32
+        origin:
+          description: Pays d'origine de la glace
+          oneOf:
+            - $ref: '#/components/schemas/Origin'
+            - type : integer
+        containers:
+          description: tous les containers possible pour cette glace
+          oneOf:
+            - type : array
+              items:
+                $ref: '#/components/schemas/Container'
+            - type : array
+              items:
+                type: integer
       title: IceCream
     Origin:
       description: toutes les caractéristiques d'une origine
       type: object
       properties:
-        name:
-          description: nom du pays d'origine
-          type: string
         id:
           description: numéro auto-incrémenté de l'origine
           type: integer
-          format: int32
+        name:
+          description: nom du pays d'origine
+          type: string
+        icecreams:
+          description: Toutes les glaces venant de cette origine
+          oneOf:
+            - type : array
+              items:
+                $ref: '#/components/schemas/IceCream'
+            - type : array
+              items:
+                type: integer
       title: Origin
     Container:
       description: toutes les caractéristiques d'un container
       type: object
       properties:
-        name:
-          description: nom du récipient dans lequelle la glace se trouve
-          type: string
         id:
           description: numéro auto-incrémenté du container
           type: integer
-          format: int32
+        name:
+          description: nom du récipient dans lequelle la glace se trouve
+          type: string
+        icecreams:
+          description: Toutes les glaces liées au container
+          oneOf:
+            - type : array
+              items:
+                $ref: '#/components/schemas/IceCream'
+            - type : array
+              items:
+                type: integer
       title: Container
