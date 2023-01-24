@@ -1,9 +1,11 @@
 package ch.heig.icecreams.api;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
 public class Swagger2SpringBoot implements CommandLineRunner {
@@ -17,6 +19,11 @@ public class Swagger2SpringBoot implements CommandLineRunner {
 
     public static void main(String[] args) throws Exception {
         new SpringApplication(Swagger2SpringBoot.class).run(args);
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 
     class ExitException extends RuntimeException implements ExitCodeGenerator {

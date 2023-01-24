@@ -1,5 +1,6 @@
 package ch.heig.icecreams.api.endpoints;
 
+import org.modelmapper.ModelMapper;
 import org.openapitools.api.IceCreamsApi;
 import ch.heig.icecreams.api.exceptions.IceCreamNotFoundException;
 import org.openapitools.model.IceCreamDTOid;
@@ -24,10 +25,15 @@ public class IceCreamsEndpoint implements IceCreamsApi {
     @Autowired
     private IceCreamRepository iceCreamRepository;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     @Override
     public ResponseEntity<List<IceCreamDTOobj>> getIceCreams() {
         List<IceCreamEntity> iceCreamsEntities= iceCreamRepository.findAll();
-        List<IceCreamDTOobj> iceCreams = createIceCreamList(iceCreamsEntities);
+        List<IceCreamDTOobj> iceCreams = new ArrayList<>();
+        iceCreamsEntities.forEach(iceCream -> iceCreams.add(modelMapper.map(iceCream, IceCreamDTOobj.class)));
+
         return new ResponseEntity<>(iceCreams,HttpStatus.OK);
     }
 
@@ -58,20 +64,6 @@ public class IceCreamsEndpoint implements IceCreamsApi {
                 .buildAndExpand(iceCreamAdded.getId())
                 .toUri();
         return ResponseEntity.created(uri).build();
-    }
-
-    public static List<IceCreamDTOobj> createIceCreamList(List<IceCreamEntity> iceCreamEntities){
-        List<IceCreamDTOobj> iceCreams = new ArrayList<>();
-        for (IceCreamEntity iceCreamEntity : iceCreamEntities) {
-            IceCreamDTOobj iceCream = new IceCreamDTOobj();
-            iceCream.setId(iceCreamEntity.getId());
-            iceCream.setName(iceCreamEntity.getName());
-            iceCream.setPrice(iceCreamEntity.getPrice());
-            // TODO: Utiliser un mapper pour passer d'Entity à DTO
-//            iceCream.setOrigin(iceCreamEntity.getOrigin());
-            iceCreams.add(iceCream);
-        }
-        return iceCreams;
     }
 
     @Override
