@@ -1,12 +1,12 @@
 package ch.heig.icecreams.api.endpoints;
 
-import org.modelmapper.ModelMapper;
+import ch.heig.icecreams.api.repositories.IceCreamRepository;
+import ch.heig.icecreams.api.services.IceCreamsService;
 import org.openapitools.api.IceCreamsApi;
 import ch.heig.icecreams.api.exceptions.IceCreamNotFoundException;
 import org.openapitools.model.IceCreamDTOid;
 import org.openapitools.model.IceCreamDTOobj;
 import ch.heig.icecreams.api.entities.IceCreamEntity;
-import ch.heig.icecreams.api.repositories.IceCreamRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,15 +24,15 @@ public class IceCreamsEndpoint implements IceCreamsApi {
     @Autowired
     private IceCreamRepository iceCreamRepository;
 
-    @Autowired
-    private ModelMapper modelMapper;
+    private final IceCreamsService iceCreamService;
+
+    public IceCreamsEndpoint(IceCreamsService iceCreamService) {
+        this.iceCreamService = iceCreamService;
+    }
 
     @Override
     public ResponseEntity<List<IceCreamDTOobj>> getIceCreams() {
-        List<IceCreamEntity> iceCreamsEntities= iceCreamRepository.findAll();
-        List<IceCreamDTOobj> iceCreams = new ArrayList<>();
-        iceCreamsEntities.forEach(iceCream -> iceCreams.add(modelMapper.map(iceCream, IceCreamDTOobj.class)));
-
+        var iceCreams = iceCreamService.getIceCreams();
         return new ResponseEntity<>(iceCreams,HttpStatus.OK);
     }
 

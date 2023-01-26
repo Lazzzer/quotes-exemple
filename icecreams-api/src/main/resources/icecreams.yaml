@@ -28,8 +28,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/IceCreamDTOobj'
-        '404':
-          description: Not Found
     post:
       tags:
         - ice-creams
