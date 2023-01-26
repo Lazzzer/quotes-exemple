@@ -1,5 +1,3 @@
-// Sources : https://stackoverflow.com/questions/65807229/how-can-i-use-the-modelmapper-in-spring
-
 package ch.heig.icecreams.api.configuration;
 
 import ch.heig.icecreams.api.entities.ContainerEntity;
