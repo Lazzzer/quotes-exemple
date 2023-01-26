@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 @Table(name = "ice_creams")
 public class IceCreamEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private float price;

@@ -10,7 +10,7 @@ import java.util.List;
 @Table(name = "containers")
 public class ContainerEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
 
