@@ -11,14 +11,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class IceCreamsService {
     private final IceCreamRepository iceCreamRepository;
-
     private final ModelMapper mapper;
 
     public IceCreamsService(IceCreamRepository iceCreamRepository, ModelMapper mapper) {
@@ -27,11 +25,10 @@ public class IceCreamsService {
     }
 
     public List<IceCreamDTOobj> getIceCreams(Float price) {
-        var iceCreams = new ArrayList<IceCreamDTOobj>();
         var iceCreamEntities = price != null ? iceCreamRepository.findByPrice(price) : iceCreamRepository.findAll();
-        iceCreamEntities.forEach(iceCream -> iceCreams.add(mapper.map(iceCream, IceCreamDTOobj.class)));
-
-        return iceCreams;
+        return iceCreamEntities.stream()
+                .map(iceCreamEntity -> mapper.map(iceCreamEntity, IceCreamDTOobj.class))
+                .toList();
     }
 
     public IceCreamDTOobj getIceCream(int id) {
