@@ -13,7 +13,7 @@ public class IceCreamEntity {
     private int id;
     private String name;
     private float price;
-    @ManyToOne
+    @ManyToOne(optional = false)
     private OriginEntity origin;
     @ManyToMany
     private List<ContainerEntity> containers;

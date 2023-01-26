@@ -38,6 +38,14 @@ public class OriginEntity {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<IceCreamEntity> getIceCreams() {
+        return iceCreams;
+    }
+
+    public void setIceCreams(List<IceCreamEntity> iceCreams) {
+        this.iceCreams = iceCreams;
+    }
 }
 
 

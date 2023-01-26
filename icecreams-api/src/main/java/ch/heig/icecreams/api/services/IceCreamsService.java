@@ -1,11 +1,14 @@
 package ch.heig.icecreams.api.services;
 
 import ch.heig.icecreams.api.entities.IceCreamEntity;
+import ch.heig.icecreams.api.exceptions.IceCreamBadRequestException;
 import ch.heig.icecreams.api.exceptions.IceCreamNotFoundException;
 import ch.heig.icecreams.api.repositories.IceCreamRepository;
 import org.modelmapper.ModelMapper;
 import org.openapitools.model.IceCreamDTOid;
 import org.openapitools.model.IceCreamDTOobj;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,7 +40,12 @@ public class IceCreamsService {
 
     public IceCreamDTOobj addIceCream(IceCreamDTOid iceCream) {
         var iceCreamEntity = mapper.map(iceCream, IceCreamEntity.class);
-        var iceCreamAdded = iceCreamRepository.save(iceCreamEntity);
-        return mapper.map(iceCreamAdded, IceCreamDTOobj.class);
+        IceCreamEntity createdIceCream;
+        try {
+            createdIceCream = iceCreamRepository.save(iceCreamEntity);
+        } catch (DataIntegrityViolationException | InvalidDataAccessApiUsageException e) {
+            throw new IceCreamBadRequestException(); // TODO: Add message
+        }
+        return mapper.map(createdIceCream, IceCreamDTOobj.class);
     }
 }

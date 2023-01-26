@@ -47,6 +47,8 @@ paths:
               schema:
                 type: string
                 format: uri
+        '400':
+          description: Requête invalide
     put:
       tags:
         - ice-creams
@@ -220,7 +222,7 @@ components:
         - $ref: '#/components/schemas/OriginDTO'
         - type: object
           properties:
-            icecreams:
+            iceCreams:
               type: array
               items:
                 $ref: '#/components/schemas/IceCreamDTO'
@@ -252,7 +254,7 @@ components:
         - $ref: '#/components/schemas/ContainerDTO'
         - type: object
           properties:
-            icecreams:
+            iceCreams:
               type: array
               items:
                 $ref: '#/components/schemas/IceCreamDTO'
