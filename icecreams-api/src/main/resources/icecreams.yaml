@@ -47,8 +47,6 @@ paths:
               schema:
                 type: string
                 format: uri
-        '409':
-          description: Conflict
     put:
       tags:
         - ice-creams
@@ -174,10 +172,10 @@ components:
         - $ref: '#/components/schemas/IceCreamDTO'
         - type: object
           properties:
-            origin:
+            originId:
               description: id de l'origine de la glace
               type: integer
-            containers:
+            containerIds:
                 description: liste des id des containers de la glace
                 type: array
                 items:
@@ -211,7 +209,7 @@ components:
         - $ref: '#/components/schemas/OriginDTO'
         - type: object
           properties:
-            icecreams:
+            iceCreamIds:
                 description: Toutes les glaces venant de cette origine
                 type: array
                 items:
@@ -243,7 +241,7 @@ components:
         - $ref: '#/components/schemas/ContainerDTO'
         - type: object
           properties:
-            icecreams:
+            iceCreamIds:
                 description: Toutes les glaces liées au container
                 type: array
                 items:

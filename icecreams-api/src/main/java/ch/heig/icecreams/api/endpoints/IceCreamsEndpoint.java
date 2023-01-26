@@ -8,7 +8,6 @@ import org.openapitools.model.IceCreamDTOid;
 import org.openapitools.model.IceCreamDTOobj;
 import ch.heig.icecreams.api.entities.IceCreamEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,11 +19,10 @@ import java.util.Optional;
 
 @RestController
 public class IceCreamsEndpoint implements IceCreamsApi {
+    private final IceCreamsService iceCreamService;
 
     @Autowired
     private IceCreamRepository iceCreamRepository;
-
-    private final IceCreamsService iceCreamService;
 
     public IceCreamsEndpoint(IceCreamsService iceCreamService) {
         this.iceCreamService = iceCreamService;
@@ -33,34 +31,22 @@ public class IceCreamsEndpoint implements IceCreamsApi {
     @Override
     public ResponseEntity<List<IceCreamDTOobj>> getIceCreams() {
         var iceCreams = iceCreamService.getIceCreams();
-        return new ResponseEntity<>(iceCreams,HttpStatus.OK);
+        return ResponseEntity.ok(iceCreams);
     }
 
     @Override
     public ResponseEntity<IceCreamDTOobj> getIceCream(Integer id) {
-        Optional<IceCreamEntity> opt = iceCreamRepository.findById(id);
-        if (opt.isPresent()) {
-            IceCreamEntity iceCreamEntity = opt.get();
-            IceCreamDTOobj iceCream = new IceCreamDTOobj();
-            iceCream.setId(iceCreamEntity.getId());
-            iceCream.setName(iceCreamEntity.getName());
-            iceCream.setPrice(iceCreamEntity.getPrice());
-            return new ResponseEntity<>(iceCream, HttpStatus.OK);
-        } else {
-            throw new IceCreamNotFoundException(id);
-        }
+        var iceCream = iceCreamService.getIceCream(id);
+        return ResponseEntity.ok(iceCream);
     }
 
     @Override
     public ResponseEntity<Void> addIceCream(@RequestBody IceCreamDTOid iceCream) {
-        IceCreamEntity iceCreamEntity = new IceCreamEntity();
-        iceCreamEntity.setName(iceCream.getName());
-        iceCreamEntity.setPrice(iceCream.getPrice());
-        IceCreamEntity iceCreamAdded = iceCreamRepository.save(iceCreamEntity);
+        var createdIceCream = iceCreamService.addIceCream(iceCream);
         URI uri = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(iceCreamAdded.getId())
+                .buildAndExpand(createdIceCream.getId())
                 .toUri();
         return ResponseEntity.created(uri).build();
     }

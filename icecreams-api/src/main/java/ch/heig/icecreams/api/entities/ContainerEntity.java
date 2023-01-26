@@ -14,8 +14,8 @@ public class ContainerEntity {
     private int id;
     private String name;
 
-    /*@ManyToMany(mappedBy = "containers")
-    private List<IceCreamEntity> icecreams = new ArrayList<>();*/
+    @ManyToMany(mappedBy = "containers", fetch = FetchType.LAZY)
+    private List<IceCreamEntity> iceCreams;
 
     public ContainerEntity() {}
 

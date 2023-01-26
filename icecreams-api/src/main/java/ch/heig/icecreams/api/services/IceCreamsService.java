@@ -1,7 +1,10 @@
 package ch.heig.icecreams.api.services;
 
+import ch.heig.icecreams.api.entities.IceCreamEntity;
+import ch.heig.icecreams.api.exceptions.IceCreamNotFoundException;
 import ch.heig.icecreams.api.repositories.IceCreamRepository;
 import org.modelmapper.ModelMapper;
+import org.openapitools.model.IceCreamDTOid;
 import org.openapitools.model.IceCreamDTOobj;
 import org.springframework.stereotype.Service;
 
@@ -25,5 +28,16 @@ public class IceCreamsService {
         iceCreamsEntities.forEach(iceCream -> iceCreams.add(mapper.map(iceCream, IceCreamDTOobj.class)));
 
         return iceCreams;
+    }
+
+    public IceCreamDTOobj getIceCream(int id) {
+        var iceCreamEntity = iceCreamRepository.findById(id).orElseThrow(() -> new IceCreamNotFoundException(id));
+        return mapper.map(iceCreamEntity, IceCreamDTOobj.class);
+    }
+
+    public IceCreamDTOobj addIceCream(IceCreamDTOid iceCream) {
+        var iceCreamEntity = mapper.map(iceCream, IceCreamEntity.class);
+        var iceCreamAdded = iceCreamRepository.save(iceCreamEntity);
+        return mapper.map(iceCreamAdded, IceCreamDTOobj.class);
     }
 }

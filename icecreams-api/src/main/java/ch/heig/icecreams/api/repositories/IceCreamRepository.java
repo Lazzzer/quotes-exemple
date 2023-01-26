@@ -8,7 +8,6 @@ import java.util.List;
 
 @Repository
 public interface IceCreamRepository extends JpaRepository<IceCreamEntity, Integer> {
-    IceCreamEntity findById(int id);
     List<IceCreamEntity> findByPrice(String pattern);
 
     List<IceCreamEntity> findByOriginId(int id);

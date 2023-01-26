@@ -1,7 +1,9 @@
 package ch.heig.icecreams.api.entities;
 
-
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "IceCream")
 @Table(name = "ice_creams")
@@ -13,9 +15,8 @@ public class IceCreamEntity {
     private float price;
     @ManyToOne
     private OriginEntity origin;
-
-    /*@ManyToMany(mappedBy = "icecreams")
-    private List<ContainerEntity> containers = new ArrayList<>();*/
+    @ManyToMany
+    private List<ContainerEntity> containers;
 
     public IceCreamEntity() {
     }
@@ -57,5 +58,13 @@ public class IceCreamEntity {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public List<ContainerEntity> getContainers() {
+        return containers;
+    }
+
+    public void setContainers(List<ContainerEntity> containers) {
+        this.containers = containers;
     }
 }

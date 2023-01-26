@@ -13,8 +13,8 @@ public class OriginEntity {
     private int id;
     private String name;
 
-    @OneToMany(mappedBy = "origin")
-    private List<IceCreamEntity> icecreams = new ArrayList<>();
+    @OneToMany(mappedBy = "origin", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<IceCreamEntity> iceCreams;
 
     public OriginEntity() {}
 
