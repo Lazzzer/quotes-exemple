@@ -26,10 +26,10 @@ public class IceCreamsService {
         this.mapper = mapper;
     }
 
-    public List<IceCreamDTOobj> getIceCreams() {
-        var iceCreamsEntities= iceCreamRepository.findAll();
+    public List<IceCreamDTOobj> getIceCreams(Float price) {
         var iceCreams = new ArrayList<IceCreamDTOobj>();
-        iceCreamsEntities.forEach(iceCream -> iceCreams.add(mapper.map(iceCream, IceCreamDTOobj.class)));
+        var iceCreamEntities = price != null ? iceCreamRepository.findByPrice(price) : iceCreamRepository.findAll();
+        iceCreamEntities.forEach(iceCream -> iceCreams.add(mapper.map(iceCream, IceCreamDTOobj.class)));
 
         return iceCreams;
     }

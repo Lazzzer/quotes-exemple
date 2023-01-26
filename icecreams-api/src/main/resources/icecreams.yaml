@@ -19,6 +19,14 @@ paths:
         - ice-creams
       summary: Obtient une liste de toutes les glaces
       operationId: getIceCreams
+      parameters:
+        - in: query
+          name: price
+          description: prix de la glace
+          schema:
+            type: number
+            format: float
+          required: false
       responses:
         '200':
           description: OK
@@ -139,8 +147,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/OriginDTOobj'
-        '404':
-          description: Not Found
   /containers:
     get:
       tags:
@@ -156,8 +162,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ContainerDTOobj'
-        '404':
-          description: Not Found
 components:
   schemas:
     IceCreamDTO:

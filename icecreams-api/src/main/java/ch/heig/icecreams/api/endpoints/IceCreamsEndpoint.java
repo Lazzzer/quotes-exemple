@@ -21,8 +21,8 @@ public class IceCreamsEndpoint implements IceCreamsApi {
     }
 
     @Override
-    public ResponseEntity<List<IceCreamDTOobj>> getIceCreams() {
-        var iceCreams = iceCreamService.getIceCreams();
+    public ResponseEntity<List<IceCreamDTOobj>> getIceCreams(Float price) {
+        var iceCreams = iceCreamService.getIceCreams(price);
         return ResponseEntity.ok(iceCreams);
     }
 
@@ -43,7 +43,6 @@ public class IceCreamsEndpoint implements IceCreamsApi {
         return ResponseEntity.created(uri).build();
     }
 
-
     @Override
     public ResponseEntity<Void> updateCreateIceCream(@RequestBody IceCreamDTOid iceCream){
         var createdId = iceCreamService.updateCreateIceCream(iceCream);
@@ -57,6 +56,7 @@ public class IceCreamsEndpoint implements IceCreamsApi {
         }
         return ResponseEntity.ok().build();
     }
+
     @Override
     public ResponseEntity<Void> deleteIceCream(Integer id) {
         iceCreamService.deleteIceCream(id);
