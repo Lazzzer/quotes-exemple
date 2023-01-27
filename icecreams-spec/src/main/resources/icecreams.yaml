@@ -19,6 +19,14 @@ paths:
         - ice-creams
       summary: Obtient une liste de toutes les glaces
       operationId: getIceCreams
+      parameters:
+        - in: query
+          name: price
+          description: prix de la glace
+          schema:
+            type: number
+            format: float
+          required: false
       responses:
         '200':
           description: OK
@@ -28,8 +36,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/IceCreamDTOobj'
-        '404':
-          description: Not Found
     post:
       tags:
         - ice-creams
@@ -49,8 +55,10 @@ paths:
               schema:
                 type: string
                 format: uri
-        '409':
-          description: Conflict
+        '400':
+          description: La glace n'a pas pu être créée, il manque des champs obligatoires
+        '422':
+          description: La glace n'a pas pu être créée, un champ est invalide
     put:
       tags:
         - ice-creams
@@ -78,6 +86,10 @@ paths:
               schema:
                 type: string
                 format: uri
+        '400':
+          description: La glace n'a pas pu être créée/modifiée, il manque des champs obligatoires
+        '422':
+          description: La glace n'a pas pu être créée/modifiée, un champ est invalide
       deprecated: false
   /ice-creams/{id}:
     get:
@@ -135,8 +147,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/OriginDTOobj'
-        '404':
-          description: Not Found
   /containers:
     get:
       tags:
@@ -152,8 +162,6 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ContainerDTOobj'
-        '404':
-          description: Not Found
 components:
   schemas:
     IceCreamDTO:
@@ -163,6 +171,7 @@ components:
         id:
           description: numéro auto-incrémenté de la glace
           type: integer
+          readOnly: true
         name:
           description: nom de la glace
           type: string
@@ -170,20 +179,26 @@ components:
           description: prix de la glace
           type: number
           format: float
+      required:
+        - name
+        - price
       title: IceCreamDTO
     IceCreamDTOid:
       allOf:
         - $ref: '#/components/schemas/IceCreamDTO'
         - type: object
           properties:
-            origin:
+            originId:
               description: id de l'origine de la glace
               type: integer
-            containers:
+            containerIds:
               description: liste des id des containers de la glace
               type: array
               items:
                 type: integer
+          required:
+            - originId
+            - containerIds
       title: IceCreamDTOid
     IceCreamDTOobj:
       allOf:
@@ -196,6 +211,9 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/ContainerDTO'
+          required:
+            - origin
+            - containers
       title: IceCreamDTOobj
     OriginDTO:
       description: toutes les caractéristiques d'une origine
@@ -204,30 +222,37 @@ components:
         id:
           description: numéro auto-incrémenté de l'origine
           type: integer
+          readOnly: true
         name:
           description: nom du pays d'origine
           type: string
+      required:
+        - name
       title: OriginDTO
     OriginDTOid:
       allOf:
         - $ref: '#/components/schemas/OriginDTO'
         - type: object
           properties:
-            icecreams:
+            iceCreamIds:
               description: Toutes les glaces venant de cette origine
               type: array
               items:
                 type: integer
+          required:
+            - iceCreamIds
       title: OriginDTOid
     OriginDTOobj:
       allOf:
         - $ref: '#/components/schemas/OriginDTO'
         - type: object
           properties:
-            icecreams:
+            iceCreams:
               type: array
               items:
                 $ref: '#/components/schemas/IceCreamDTO'
+          required:
+            - iceCreams
       title: OriginDTOobj
     ContainerDTO:
       description: toutes les caractéristiques d'un container
@@ -236,28 +261,35 @@ components:
         id:
           description: numéro auto-incrémenté du container
           type: integer
+          readOnly: true
         name:
           description: nom du récipient dans lequelle la glace se trouve
           type: string
+      required:
+        - name
       title: ContainerDTO
     ContainerDTOid:
       allOf:
         - $ref: '#/components/schemas/ContainerDTO'
         - type: object
           properties:
-            icecreams:
+            iceCreamIds:
               description: Toutes les glaces liées au container
               type: array
               items:
                 type: integer
+          required:
+            - iceCreamIds
       title: ContainerDTOid
     ContainerDTOobj:
       allOf:
         - $ref: '#/components/schemas/ContainerDTO'
         - type: object
           properties:
-            icecreams:
+            iceCreams:
               type: array
               items:
                 $ref: '#/components/schemas/IceCreamDTO'
+          required:
+            - iceCreams
       title: ContainerDTOobj
