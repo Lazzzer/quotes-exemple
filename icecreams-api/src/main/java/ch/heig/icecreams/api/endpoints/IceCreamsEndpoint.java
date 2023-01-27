@@ -3,6 +3,7 @@ package ch.heig.icecreams.api.endpoints;
 import ch.heig.icecreams.api.services.IceCreamsService;
 import org.openapitools.api.IceCreamsApi;
 import org.openapitools.model.IceCreamDTOid;
+import org.openapitools.model.IceCreamDTOidOptional;
 import org.openapitools.model.IceCreamDTOobj;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,6 +55,12 @@ public class IceCreamsEndpoint implements IceCreamsApi {
                     .toUri();
             return ResponseEntity.created(uri).build();
         }
+        return ResponseEntity.ok().build();
+    }
+
+    @Override
+    public ResponseEntity<Void> updateIceCream(IceCreamDTOidOptional iceCreamDTOidOptional) {
+        iceCreamService.updateIceCream(iceCreamDTOidOptional);
         return ResponseEntity.ok().build();
     }
 

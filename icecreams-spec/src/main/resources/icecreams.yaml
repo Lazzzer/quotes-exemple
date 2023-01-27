@@ -46,6 +46,7 @@ paths:
           'application/json':
             schema:
               $ref: '#/components/schemas/IceCreamDTOid'
+        required: true
       responses:
         '201':
           description: Glace créée
@@ -69,6 +70,7 @@ paths:
           'application/json':
             schema:
               $ref: '#/components/schemas/IceCreamDTOid'
+        required: true
       responses:
         '200':
           description: Glace modifiée
@@ -90,6 +92,25 @@ paths:
           description: La glace n'a pas pu être créée/modifiée, il manque des champs obligatoires
         '422':
           description: La glace n'a pas pu être créée/modifiée, un champ est invalide
+      deprecated: false
+    patch:
+      tags:
+        - ice-creams
+      summary: Modifer une glace
+      operationId: updateIceCream
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/IceCreamDTOidOptional'
+        required: true
+      responses:
+        '200':
+          description: Glace modifiée
+        '400':
+          description: La glace n'a pas pu être modifiée, il manque des champs obligatoires
+        '422':
+          description: La glace n'a pas pu être modifiée, un champ est invalide
       deprecated: false
   /ice-creams/{id}:
     get:
@@ -199,6 +220,31 @@ components:
             - originId
             - containerIds
       title: IceCreamDTOid
+    IceCreamDTOidOptional:
+      description: toutes les caractéristiques d'une glace
+      type: object
+      properties:
+        id:
+          description: numéro auto-incrémenté de la glace
+          type: integer
+        name:
+          description: nom de la glace
+          type: string
+        price:
+          description: prix de la glace
+          type: number
+          format: float
+        originId:
+          description: id de l'origine de la glace
+          type: integer
+        containerIds:
+          description: liste des id des containers de la glace
+          type: array
+          items:
+            type: integer
+      required:
+        - id
+      title: IceCreamDTOidOptional
     IceCreamDTOobj:
       allOf:
         - $ref: '#/components/schemas/IceCreamDTO'

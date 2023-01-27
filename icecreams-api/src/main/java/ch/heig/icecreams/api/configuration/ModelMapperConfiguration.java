@@ -72,7 +72,6 @@ public class ModelMapperConfiguration {
                         .using(new IdsIceCreamsConverter())
                         .map(ContainerDTOid::getIceCreamIds, ContainerEntity::setIceCreams)
                 );
-
         return modelMapper;
     }
 }
