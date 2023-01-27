@@ -45,7 +45,9 @@ public class IceCreamsService {
         var iceCreamEntity = mapper.map(iceCream, IceCreamEntity.class);
         var updatedCreatedIceCream = saveIceCream(iceCreamEntity);
         // Si l'ID de la glace n'a pas changé, il s'agit d'une mise à jour issue d'un PUT
-        return updatedCreatedIceCream.getId() == iceCreamEntity.getId() ? Optional.empty() : Optional.of(updatedCreatedIceCream.getId());
+        return iceCream.getId() != null && updatedCreatedIceCream.getId() == iceCreamEntity.getId()
+                ? Optional.empty()
+                : Optional.of(updatedCreatedIceCream.getId());
     }
 
     public void deleteIceCream(int id) {
