@@ -46,15 +46,20 @@ public class IceCreamSteps {
     @Given("I have an edited ice cream payload")
     public void i_have_an_edited_ice_cream_payload() {
         iceCream = new IceCreamDTOid();
-        iceCream.setName("Chocolate");
-        iceCream.setPrice(3.5f);
-        iceCream.setOriginId(2);
-        iceCream.setContainerIds(List.of(3, 4));
+        iceCream.setId(1);
+        iceCream.setName("Super chocolat");
+        iceCream.setPrice(7.5f);
+        iceCream.setOriginId(3);
+        iceCream.setContainerIds(List.of(1, 2));
     }
 
     @When("I PUT it to the \\/ice-creams endpoint")
     public void i_put_it_to_the_ice_creams_endpoint() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+        try {
+            ApiResponse<Void> response = api.updateCreateIceCreamWithHttpInfo(iceCream);
+            statusCode = response.getStatusCode();
+        } catch (ApiException e) {
+            statusCode = e.getCode();
+        }
     }
 }

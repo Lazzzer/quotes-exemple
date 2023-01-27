@@ -171,7 +171,6 @@ components:
         id:
           description: numéro auto-incrémenté de la glace
           type: integer
-          readOnly: true
         name:
           description: nom de la glace
           type: string
@@ -222,7 +221,6 @@ components:
         id:
           description: numéro auto-incrémenté de l'origine
           type: integer
-          readOnly: true
         name:
           description: nom du pays d'origine
           type: string
@@ -261,7 +259,6 @@ components:
         id:
           description: numéro auto-incrémenté du container
           type: integer
-          readOnly: true
         name:
           description: nom du récipient dans lequelle la glace se trouve
           type: string
