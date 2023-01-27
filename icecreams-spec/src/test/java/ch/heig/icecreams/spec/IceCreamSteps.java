@@ -19,6 +19,8 @@ public class IceCreamSteps {
     private IceCreamDTOid iceCream;
     private int statusCode;
 
+    private int chosenIdToDelete;
+
     @Given("I have an ice cream payload")
     public void i_have_an_ice_cream_payload() {
         iceCream = new IceCreamDTOid();
@@ -57,6 +59,21 @@ public class IceCreamSteps {
     public void i_put_it_to_the_ice_creams_endpoint() {
         try {
             ApiResponse<Void> response = api.updateCreateIceCreamWithHttpInfo(iceCream);
+            statusCode = response.getStatusCode();
+        } catch (ApiException e) {
+            statusCode = e.getCode();
+        }
+    }
+
+    @Given("I have an id for the ice i want to delete")
+    public void iHaveAnIdForTheIceIWantToDelete() {
+        chosenIdToDelete = 2;
+    }
+
+    @When("I DELETE it to the \\/ice-creams endpoint")
+    public void iDELETEItToTheIceCreamsEndpoint() {
+        try {
+            ApiResponse<Void> response = api.deleteIceCreamWithHttpInfo(chosenIdToDelete);
             statusCode = response.getStatusCode();
         } catch (ApiException e) {
             statusCode = e.getCode();
