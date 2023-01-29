@@ -4,6 +4,13 @@ Avec OpenApi generator, génération à partir d'un fichier OpenAPI "icecream.ya
  - des intertaces et des DTO pour Springboot
  - d'un client et des DTO pour le client BDD
 
+ ## Auteurs
+  - Lazar Pavicevic
+  - Jonathan Friedli
+
+ ## Video
+  [Cliquez ici pour voir la vidéo](https://www.swisstransfer.com/d/eb376185-c33d-4b1c-be5a-ce22d0e69020)
+
  ## Logique métier
  Nous avons décidé de choisir les glaces comme métier pour cet exemple. Nous nous sommes inspirés de la vidéo de IBM sur les [API REST](https://www.youtube.com/watch?v=lsMQRaeKNDk).
 
