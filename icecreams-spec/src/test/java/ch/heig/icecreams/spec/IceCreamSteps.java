@@ -7,6 +7,8 @@ import org.openapitools.client.ApiException;
 import org.openapitools.client.ApiResponse;
 import org.openapitools.client.api.IceCreamsApi;
 import org.openapitools.client.model.IceCreamDTOid;
+import org.openapitools.client.model.IceCreamDTOidOptional;
+import org.openapitools.client.model.IceCreamDTOobj;
 
 import java.util.List;
 
@@ -17,9 +19,28 @@ public class IceCreamSteps {
 
     private final IceCreamsApi api = new IceCreamsApi();
     private IceCreamDTOid iceCream;
+
+    private IceCreamDTOidOptional iceCreamForPatch;
     private int statusCode;
 
+    private int chosenIdToGet;
     private int chosenIdToDelete;
+
+
+    @Given("I have the id of the ice cream I want")
+    public void iHaveTheIdOfTheIceCreamIWant() {
+        chosenIdToGet = 1;
+    }
+
+    @When("I GET it the \\/ice-creams\\/id endpoint")
+    public void iGETItTheIceCreamsIdEndpoint() {
+        try {
+            ApiResponse<IceCreamDTOobj> response = api.getIceCreamWithHttpInfo(chosenIdToGet);
+            statusCode = response.getStatusCode();
+        } catch (ApiException e) {
+            statusCode = e.getCode();
+        }
+    }
 
     @Given("I have an ice cream payload")
     public void i_have_an_ice_cream_payload() {
@@ -59,6 +80,23 @@ public class IceCreamSteps {
     public void i_put_it_to_the_ice_creams_endpoint() {
         try {
             ApiResponse<Void> response = api.updateCreateIceCreamWithHttpInfo(iceCream);
+            statusCode = response.getStatusCode();
+        } catch (ApiException e) {
+            statusCode = e.getCode();
+        }
+    }
+
+    @Given("I have a partial edited ice cream payload")
+    public void iHaveAPartialEditedIceCreamPayload() {
+        iceCreamForPatch = new IceCreamDTOidOptional();
+        iceCreamForPatch.setId(3);
+        iceCreamForPatch.setName("Melon glacé");
+    }
+
+    @When("I PATCH it to the \\/ice-creams endpoint")
+    public void iPATCHItToTheIceCreamsEndpoint() {
+        try {
+            ApiResponse<Void> response = api.updateIceCreamWithHttpInfo(iceCreamForPatch);
             statusCode = response.getStatusCode();
         } catch (ApiException e) {
             statusCode = e.getCode();
