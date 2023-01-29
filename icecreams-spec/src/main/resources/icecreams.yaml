@@ -9,9 +9,9 @@ tags:
   - name: ice-creams
     description: Gestion des glaces
   - name: origins
-    description: Gestion des origines des différents types de glace
+    description: Gestion des différentes origines (pays, région, etc.) des glaces
   - name: containers
-    description: Gestion des containers pour la glace
+    description: Gestion des conteneurs pour la glace
 paths:
   /ice-creams:
     get:
@@ -63,7 +63,7 @@ paths:
     put:
       tags:
         - ice-creams
-      summary: Modifer ou ajouter une glace
+      summary: Modifier ou ajouter une glace
       operationId: updateCreateIceCream
       requestBody:
         content:
@@ -96,7 +96,7 @@ paths:
     patch:
       tags:
         - ice-creams
-      summary: Modifer une glace
+      summary: Modifier une glace
       operationId: updateIceCream
       requestBody:
         content:
@@ -116,12 +116,12 @@ paths:
     get:
       tags:
         - ice-creams
-      summary: Obtient une glace
+      summary: Obtient une glace par son id
       operationId: getIceCream
       parameters:
         - name: id
           in: path
-          description: numéro de la glace à obtenir
+          description: id de la glace à récupérer
           required: true
           schema:
             type: integer
@@ -143,7 +143,7 @@ paths:
       parameters:
         - name: id
           in: path
-          description: numéro de la glace à supprimer
+          description: id de la glace à récupérer
           required: true
           schema:
             type: integer
@@ -157,7 +157,7 @@ paths:
     get:
       tags:
         - origins
-      summary: Obtient une liste de toutes les origines possibles
+      summary: Obtient une liste de toutes les origines
       operationId: getOrigins
       responses:
         '200':
@@ -172,7 +172,7 @@ paths:
     get:
       tags:
         - containers
-      summary: Obtient une liste de toutes les containers pour les glaces
+      summary: Obtient une liste de tous les conteneurs
       operationId: getContainers
       responses:
         '200':
